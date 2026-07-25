@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+:root {
+  --main-font: "Outfit", sans-serif;
+  --main-page-color: #131313;
+  --main-letter-color: #bbbbbb;
+}
+
+.dark {
+  --main-page-color: #bbbbbb;
+  --main-letter-color: #131313;
+}
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  text-decoration: none;
+  list-style: none;
+}
