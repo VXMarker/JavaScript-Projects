@@ -1,3 +1,15 @@
+.win {
+  --main-border-color: rgb(27, 150, 16);
+}
+
+.lose {
+  --main-border-color: rgb(207, 10, 10);
+}
+
+.draw {
+  --main-border-color: rgb(204, 207, 10);
+}
+
 body {
   background-color: var(--main-page-color);
   color: var(--main-letter-color);
@@ -62,7 +74,7 @@ body {
   border-radius: 30px;
   height: 100%;
   width: 150px;
-  border: 10px solid rgb(73, 70, 70);
+  border: 10px solid var(--main-border-color);
 }
 
 span {
@@ -77,8 +89,4 @@ span {
 
 .hidden {
   display: none;
-}
-
-.active {
-  border: 10px solid rgb(27, 150, 16);
 }

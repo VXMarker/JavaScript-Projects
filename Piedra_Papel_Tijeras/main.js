@@ -1,84 +1,113 @@
 const choiceButtons = document.querySelectorAll(".choice-btn");
 const playerIcons = document.querySelectorAll(".player-icon");
-const icons = document.querySelectorAll(".computer-icon");
-const playerDisplays = document.querySelectorAll(".display");
+const computerIcons = document.querySelectorAll(".computer-icon");
+const simbolos = document.querySelectorAll(".simbol");
 
-let comparador = [];
+const OPTIONS = ["gem", "paper", "scissors"];
+
+function getRandomOption() {
+  return OPTIONS[Math.floor(Math.random() * OPTIONS.length)];
+}
+
+function showPlayerChoice(selectedBtn) {
+  let playerChoice = null;
+  if (selectedBtn.classList.contains("gem")) playerChoice = "gem";
+  else if (selectedBtn.classList.contains("paper")) playerChoice = "paper";
+  else if (selectedBtn.classList.contains("scissors"))
+    playerChoice = "scissors";
+  else {
+    console.warn("Invalid player choice");
+    return null;
+  }
+
+  playerIcons.forEach((icon) => icon.classList.add("hidden"));
+  playerIcons.forEach((icon) => {
+    if (icon.classList.contains(playerChoice)) {
+      icon.classList.remove("hidden");
+    }
+  });
+
+  return playerChoice;
+}
+
+async function animateComputerIcons(delay = 100) {
+  for (let cycle = 0; cycle < 5; cycle++) {
+    for (let i = 0; i < computerIcons.length; i++) {
+      const icon = computerIcons[i];
+      icon.classList.remove("hidden");
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      icon.classList.add("hidden");
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+}
+
+function showResult() {
+  const chosen = getRandomOption();
+
+  computerIcons.forEach((icon) => icon.classList.add("hidden"));
+
+  computerIcons.forEach((icon) => {
+    if (icon.classList.contains(chosen)) {
+      icon.classList.remove("hidden");
+    }
+  });
+
+  return chosen;
+}
+
+function getRoundResult(player, computer) {
+  if (player === computer) {
+    simbolos.forEach((simb) => {
+      if (simb.classList.contains("minus")) {
+        simb.classList.remove("hidden");
+        document.body.classList.add("draw");
+        setTimeout(() => {
+          simb.classList.add("hidden");
+          document.body.classList.remove("draw");
+        }, 1500);
+      }
+    });
+  }
+  if (
+    (player === "gem" && computer === "scissors") ||
+    (player === "paper" && computer === "gem") ||
+    (player === "scissors" && computer === "paper")
+  ) {
+    simbolos.forEach((simb) => {
+      if (simb.classList.contains("check")) {
+        simb.classList.remove("hidden");
+        document.body.classList.add("win");
+        setTimeout(() => {
+          simb.classList.add("hidden");
+          document.body.classList.remove("win");
+        }, 1500);
+      }
+    });
+  } else {
+    simbolos.forEach((simb) => {
+      if (simb.classList.contains("xmark")) {
+        simb.classList.remove("hidden");
+        document.body.classList.add("lose");
+        setTimeout(() => {
+          simb.classList.add("hidden");
+          document.body.classList.remove("lose");
+        }, 1500);
+      }
+    });
+  }
+}
 
 choiceButtons.forEach((btn) => {
   btn.addEventListener("click", async (e) => {
     e.preventDefault();
-    await showPlayerChoice(btn);
-    await animateComputerIcons("hidden", 100);
-    await showResult();
+
+    const playerChoice = showPlayerChoice(btn);
+    await animateComputerIcons(100);
+    const computerChoice = showResult();
+    console.log("Player:", playerChoice, "Computer:", computerChoice);
+
+    const result = getRoundResult(playerChoice, computerChoice);
+    console.log("Resultado:", result);
   });
 });
-
-const opcionRandom = (opciones) => {
-  const nRandom = Math.floor(Math.random() * 3);
-  const opcion = opciones[nRandom];
-  return opcion;
-};
-
-async function animateComputerIcons(className, delay = 500) {
-  for (let cycle = 0; cycle < 5; cycle++) {
-    for (let i = 0; i < icons.length; i++) {
-      const icon = icons[i];
-      icon.classList.remove(className);
-
-      await new Promise((resolve) => setTimeout(resolve, delay));
-
-      icon.classList.add(className);
-
-      await new Promise((resolve) => setTimeout(resolve, delay));
-    }
-  }
-}
-
-async function showResult() {
-  let selectedClass = null;
-  const icon = opcionRandom(icons);
-  icon.classList.remove("hidden");
-
-  if (icon.classList.contains("gem")) {
-    selectedClass = "gem";
-  } else if (icon.classList.contains("paper")) {
-    selectedClass = "paper";
-  } else if (icon.classList.contains("scissors")) {
-    selectedClass = "scissors";
-  } else {
-    console.warn("Invalid choice class");
-    return;
-  }
-  comparador.push(selectedClass);
-  console.log(comparador);
-  
-}
-
-function showPlayerChoice(selectedBtn) {
-  let selectedClass = null;
-  if (selectedBtn.classList.contains("gem")) {
-    selectedClass = "gem";
-  } else if (selectedBtn.classList.contains("paper")) {
-    selectedClass = "paper";
-  } else if (selectedBtn.classList.contains("scissors")) {
-    selectedClass = "scissors";
-  } else {
-    console.warn("Invalid choice class");
-    return;
-  }
-
-  playerIcons.forEach((icon) => {
-    if (icon.classList.contains("hidden")) {
-      if (icon.classList.contains(selectedClass)) {
-        icon.classList.remove("hidden");
-      }
-    } else {
-      icon.classList.add("hidden");
-    }
-  });
-
-  comparador.push(selectedClass);
-  console.log(comparador);
-  
-}
