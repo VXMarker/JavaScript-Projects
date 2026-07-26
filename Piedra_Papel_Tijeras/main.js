@@ -1,51 +1,84 @@
-const options = document.querySelectorAll(".options");
+const choiceButtons = document.querySelectorAll(".choice-btn");
+const playerIcons = document.querySelectorAll(".player-icon");
+const icons = document.querySelectorAll(".computer-icon");
+const playerDisplays = document.querySelectorAll(".display");
 
-options.forEach((option) => {
-  option.addEventListener("click", (e) => {
+let comparador = [];
+
+choiceButtons.forEach((btn) => {
+  btn.addEventListener("click", async (e) => {
     e.preventDefault();
-    recorrerConPausa(".icon", "disable", 100);
-    mostrarOption(option, 2000);
+    await showPlayerChoice(btn);
+    await animateComputerIcons("hidden", 100);
+    await showResult();
   });
 });
 
-async function recorrerConPausa(selector, nombreClase, delay = 500) {
-  const elementos = document.querySelectorAll(selector);
+const opcionRandom = (opciones) => {
+  const nRandom = Math.floor(Math.random() * 3);
+  const opcion = opciones[nRandom];
+  return opcion;
+};
 
-  for (let j = 0; j < 3; j++) {
-    for (let i = 0; i < elementos.length; i++) {
-      const elemento = elementos[i];
-      elemento.classList.remove(nombreClase);
+async function animateComputerIcons(className, delay = 500) {
+  for (let cycle = 0; cycle < 5; cycle++) {
+    for (let i = 0; i < icons.length; i++) {
+      const icon = icons[i];
+      icon.classList.remove(className);
 
       await new Promise((resolve) => setTimeout(resolve, delay));
 
-      elemento.classList.add(nombreClase);
+      icon.classList.add(className);
 
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 }
 
-const mostrarOption = (option, intervale) => {
+async function showResult() {
   let selectedClass = null;
-  if (option.classList.contains("gem")) {
+  const icon = opcionRandom(icons);
+  icon.classList.remove("hidden");
+
+  if (icon.classList.contains("gem")) {
     selectedClass = "gem";
-  } else if (option.classList.contains("paper")) {
+  } else if (icon.classList.contains("paper")) {
     selectedClass = "paper";
-  } else if (option.classList.contains("scissors")) {
+  } else if (icon.classList.contains("scissors")) {
     selectedClass = "scissors";
   } else {
-    console.log("La opción no tiene una clase válida (gem, paper, scissors)");
+    console.warn("Invalid choice class");
+    return;
+  }
+  comparador.push(selectedClass);
+  console.log(comparador);
+  
+}
+
+function showPlayerChoice(selectedBtn) {
+  let selectedClass = null;
+  if (selectedBtn.classList.contains("gem")) {
+    selectedClass = "gem";
+  } else if (selectedBtn.classList.contains("paper")) {
+    selectedClass = "paper";
+  } else if (selectedBtn.classList.contains("scissors")) {
+    selectedClass = "scissors";
+  } else {
+    console.warn("Invalid choice class");
     return;
   }
 
-  const vIcons = document.querySelectorAll(".vIcon");
-
-  vIcons.forEach((icon) => {
-    if (icon.classList.contains(selectedClass)) {
-      icon.classList.remove("disable");
-      setTimeout(() => {
-        icon.classList.add("disable");
-      }, intervale);
+  playerIcons.forEach((icon) => {
+    if (icon.classList.contains("hidden")) {
+      if (icon.classList.contains(selectedClass)) {
+        icon.classList.remove("hidden");
+      }
+    } else {
+      icon.classList.add("hidden");
     }
   });
-};
+
+  comparador.push(selectedClass);
+  console.log(comparador);
+  
+}

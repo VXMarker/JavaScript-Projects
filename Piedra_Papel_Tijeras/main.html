@@ -17,46 +17,56 @@
     </header>
     <main class="main">
       <p class="text-option">Select one option</p>
-      <ul class="contain-options">
+      <ul class="options-container">
         <li>
-          <button class="options gem">
+          <button class="choice-btn gem">
             <i class="fa-solid fa-gem"></i>
           </button>
         </li>
         <li>
-          <button class="options paper">
+          <button class="choice-btn paper">
             <i class="fa-solid fa-paper-plane"></i>
           </button>
         </li>
         <li>
-          <button class="options scissors">
+          <button class="choice-btn scissors">
             <i class="fa-solid fa-scissors"></i>
           </button>
         </li>
       </ul>
-      <p class="text-option">Select one option</p>
-      <ul class="contain-respuestas">
-        <li class="options-v">
-          <span class="disable vIcon gem">
+      <p class="text-option">Esperando Respuesta</p>
+      <ul class="result-container">
+        <li class="player-display display">
+          <span class="hidden player-icon gem">
             <i class="fa-solid fa-gem"></i>
           </span>
-          <span class="disable vIcon paper">
+          <span class="hidden player-icon paper">
             <i class="fa-solid fa-paper-plane"></i>
           </span>
-          <span class="disable vIcon scissors">
+          <span class="hidden player-icon scissors">
             <i class="fa-solid fa-scissors"></i>
           </span>
         </li>
-        <li></li>
-        <li class="options-r">
-          <span class="disable icon">
+        <li class="computer-display display">
+          <span class="hidden computer-icon">
             <i class="fa-solid fa-gem"></i>
           </span>
-          <span class="disable icon">
+          <span class="hidden computer-icon">
             <i class="fa-solid fa-paper-plane"></i>
           </span>
-          <span class="disable icon">
+          <span class="hidden computer-icon">
             <i class="fa-solid fa-scissors"></i>
+          </span>
+        </li>
+        <li class="result-display display">
+          <span class="hidden">
+            <i class="fa-solid fa-check"></i>
+          </span>
+          <span class="hidden">
+            <i class="fa-solid fa-xmark"></i>
+          </span>
+          <span class="hidden">
+            <i class="fa-solid fa-minus"></i>
           </span>
         </li>
       </ul>
