@@ -13,11 +13,9 @@ body {
 .main {
   display: grid;
   grid-template-rows: 50px 150px 50px 150px;
-  background-color: blueviolet;
   gap: 20px;
 }
 .contain-options {
-  background-color: red;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 70px;
@@ -40,12 +38,12 @@ body {
   font-size: 30px;
 }
 .contain-respuestas {
-  background-color: blue;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0px 60px;
 }
-.options-r {
+.options-r, .options-v {
   background-color: var(--main-letter-color);
   border-radius: 30px;
   height: 100%;

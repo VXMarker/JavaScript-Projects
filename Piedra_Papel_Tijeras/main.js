@@ -4,6 +4,7 @@ options.forEach((option) => {
   option.addEventListener("click", (e) => {
     e.preventDefault();
     recorrerConPausa(".icon", "disable", 100);
+    mostrarOption(option, 2000);
   });
 });
 
@@ -13,23 +14,38 @@ async function recorrerConPausa(selector, nombreClase, delay = 500) {
   for (let j = 0; j < 3; j++) {
     for (let i = 0; i < elementos.length; i++) {
       const elemento = elementos[i];
-
-      // 1. Eliminamos la clase (se verá el cambio)
       elemento.classList.remove(nombreClase);
 
-      // 2. Esperamos 'delay' milisegundos (para que veas que la clase desapareció)
       await new Promise((resolve) => setTimeout(resolve, delay));
 
-      // 3. Volvemos a poner la clase (se verá el cambio)
       elemento.classList.add(nombreClase);
 
-      // 4. Esperamos otro poco antes de pasar al siguiente elemento
       await new Promise((resolve) => setTimeout(resolve, delay));
-
-      // 5. Ahora sí, pasa al siguiente elemento del bucle
     }
   }
 }
 
-// Ejemplo de uso (cada paso dura 500ms):
-// recorrerConPausa('.item', 'active', 500);
+const mostrarOption = (option, intervale) => {
+  let selectedClass = null;
+  if (option.classList.contains("gem")) {
+    selectedClass = "gem";
+  } else if (option.classList.contains("paper")) {
+    selectedClass = "paper";
+  } else if (option.classList.contains("scissors")) {
+    selectedClass = "scissors";
+  } else {
+    console.log("La opción no tiene una clase válida (gem, paper, scissors)");
+    return;
+  }
+
+  const vIcons = document.querySelectorAll(".vIcon");
+
+  vIcons.forEach((icon) => {
+    if (icon.classList.contains(selectedClass)) {
+      icon.classList.remove("disable");
+      setTimeout(() => {
+        icon.classList.add("disable");
+      }, intervale);
+    }
+  });
+};
