@@ -1,5 +1,5 @@
 .win {
-  --main-border-color: rgb(27, 150, 16);
+  --main-border-color: rgb(16, 101, 150);
 }
 
 .lose {
@@ -20,6 +20,7 @@ body {
   justify-content: center;
   min-height: 100vh;
   min-width: 100vw;
+  position: relative;
 }
 
 .main {
@@ -89,4 +90,22 @@ span {
 
 .hidden {
   display: none;
+}
+
+.contador {
+  position: absolute;
+  width: 250px;
+  height: 200px;
+  background-color: red;
+  top: 80px;
+  right: 80px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  display: none;
+}
+.wins {
+  background-color: aqua;
+}
+.loses {
+  background-color: blue;
 }

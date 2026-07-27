@@ -5,8 +5,17 @@ const simbolos = document.querySelectorAll(".simbol");
 
 const OPTIONS = ["gem", "paper", "scissors"];
 
+let isProcessing = false;
+
 function getRandomOption() {
   return OPTIONS[Math.floor(Math.random() * OPTIONS.length)];
+}
+
+function resetVisualState() {
+  playerIcons.forEach((icon) => icon.classList.add("hidden"));
+  computerIcons.forEach((icon) => icon.classList.add("hidden"));
+  simbolos.forEach((simb) => simb.classList.add("hidden"));
+  document.body.classList.remove("win", "lose", "draw");
 }
 
 function showPlayerChoice(selectedBtn) {
@@ -44,70 +53,77 @@ async function animateComputerIcons(delay = 100) {
 
 function showResult() {
   const chosen = getRandomOption();
-
   computerIcons.forEach((icon) => icon.classList.add("hidden"));
-
   computerIcons.forEach((icon) => {
     if (icon.classList.contains(chosen)) {
       icon.classList.remove("hidden");
     }
   });
-
   return chosen;
 }
 
 function getRoundResult(player, computer) {
+  let result = "";
+  let symbol = "";
+  let bodyClass = "";
+
   if (player === computer) {
-    simbolos.forEach((simb) => {
-      if (simb.classList.contains("minus")) {
-        simb.classList.remove("hidden");
-        document.body.classList.add("draw");
-        setTimeout(() => {
-          simb.classList.add("hidden");
-          document.body.classList.remove("draw");
-        }, 1500);
-      }
-    });
-  }
-  if (
+    result = "draw";
+    symbol = "minus";
+    bodyClass = "draw";
+  } else if (
     (player === "gem" && computer === "scissors") ||
     (player === "paper" && computer === "gem") ||
     (player === "scissors" && computer === "paper")
   ) {
-    simbolos.forEach((simb) => {
-      if (simb.classList.contains("check")) {
-        simb.classList.remove("hidden");
-        document.body.classList.add("win");
-        setTimeout(() => {
-          simb.classList.add("hidden");
-          document.body.classList.remove("win");
-        }, 1500);
-      }
-    });
+    result = "win";
+    symbol = "check";
+    bodyClass = "win";
   } else {
-    simbolos.forEach((simb) => {
-      if (simb.classList.contains("xmark")) {
-        simb.classList.remove("hidden");
-        document.body.classList.add("lose");
-        setTimeout(() => {
-          simb.classList.add("hidden");
-          document.body.classList.remove("lose");
-        }, 1500);
-      }
-    });
+    result = "lose";
+    symbol = "xmark";
+    bodyClass = "lose";
   }
+
+  simbolos.forEach((simb) => {
+    if (simb.classList.contains(symbol)) {
+      simb.classList.remove("hidden");
+    }
+  });
+  document.body.classList.add(bodyClass);
+
+  setTimeout(() => {
+    simbolos.forEach((simb) => simb.classList.add("hidden"));
+    document.body.classList.remove("win", "lose", "draw");
+  }, 1500);
+
+  return result;
 }
 
 choiceButtons.forEach((btn) => {
   btn.addEventListener("click", async (e) => {
     e.preventDefault();
+    if (isProcessing) return;
+
+    isProcessing = true;
+    resetVisualState();
 
     const playerChoice = showPlayerChoice(btn);
     await animateComputerIcons(100);
     const computerChoice = showResult();
-    console.log("Player:", playerChoice, "Computer:", computerChoice);
-
     const result = getRoundResult(playerChoice, computerChoice);
-    console.log("Resultado:", result);
+
+    console.log(
+      "Player:",
+      playerChoice,
+      "Computer:",
+      computerChoice,
+      "Result:",
+      result,
+    );
+
+    setTimeout(() => {
+      isProcessing = false;
+    }, 1500);
   });
 });
