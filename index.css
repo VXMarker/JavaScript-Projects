@@ -5,6 +5,9 @@
   --main-page-color: #131313;
   --main-letter-color: #bbbbbb;
   --main-border-color: rgb(73, 70, 70);
+  --main-color-blue: rgb(16, 101, 150);
+  --main-color-red: rgb(207, 10, 10);
+  --main-color-yellow: rgb(204, 207, 10);
 }
 
 .dark {
